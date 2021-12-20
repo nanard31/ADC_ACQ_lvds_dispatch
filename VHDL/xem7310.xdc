@@ -15,38 +15,62 @@ set_property BITSTREAM.GENERAL.COMPRESS True [current_design]
 ############################################################################
 ## ADCs
 ############################################################################
-
-set_property PACKAGE_PIN AA5  [get_ports  {o_ADC_SCK_p[0]}]
-set_property PACKAGE_PIN AB5  [get_ports {o_ADC_SCK_n[0]}]
-set_property PACKAGE_PIN Y9  [get_ports  {o_ADC_CNV_n[0]}]
-set_property PACKAGE_PIN AA1 [get_ports {i_ADC_SDO_p[0]}]
-set_property PACKAGE_PIN AB1 [get_ports {i_ADC_SDO_n[0]}]
-set_property PACKAGE_PIN R6 [get_ports {i_ADC_SDO_p[1]}]
-set_property PACKAGE_PIN T6 [get_ports {i_ADC_SDO_n[1]}]
-
-set_property PACKAGE_PIN AB3 [get_ports {o_ADC_SCK_p[1]}]
-set_property PACKAGE_PIN AB2 [get_ports {o_ADC_SCK_n[1]}]
-set_property PACKAGE_PIN U3  [get_ports {o_ADC_CNV_n[1]}]
-set_property PACKAGE_PIN Y13 [get_ports {i_ADC_SDO_p[2]}]
-set_property PACKAGE_PIN AA14 [get_ports {i_ADC_SDO_n[2]}]
-set_property PACKAGE_PIN AA13 [get_ports {i_ADC_SDO_p[3]}]
-set_property PACKAGE_PIN AB13 [get_ports {i_ADC_SDO_n[3]}]
-
-set_property PACKAGE_PIN Y3 [get_ports {o_ADC_SCK_p[2]}]
-set_property PACKAGE_PIN AA3 [get_ports {o_ADC_SCK_n[2]}]
+##################################################DU1_CONV_B
+set_property PACKAGE_PIN V8  [get_ports  {o_ADC_CNV_n[0]}]	
+###################################################DU1_SCK+
+set_property PACKAGE_PIN Y8  [get_ports  {o_ADC_SCK_p[0]}]	
+###################################################DU1_SCK-
+set_property PACKAGE_PIN Y7  [get_ports {o_ADC_SCK_n[0]}]	
+###################################################DU1_SI_FRONT_SDO+
+set_property PACKAGE_PIN V7 [get_ports {i_ADC_SDO_p[0]}]
+###################################################DU1_SI_FRONT_SDO-	
+set_property PACKAGE_PIN W7 [get_ports {i_ADC_SDO_n[0]}]	
+###################################################DU2_CONV_B	
+set_property PACKAGE_PIN Y2  [get_ports {o_ADC_CNV_n[1]}]
+###################################################DU2_SCK+	
+set_property PACKAGE_PIN AA1 [get_ports {o_ADC_SCK_p[1]}]
+###################################################DU2_SCK-				
+set_property PACKAGE_PIN AB1 [get_ports {o_ADC_SCK_n[1]}]	
+###################################################DU2_SI_FRONT_SDO+
+set_property PACKAGE_PIN T1 [get_ports {i_ADC_SDO_p[1]}]	
+###################################################DU2_SI_FRONT_SDO-
+set_property PACKAGE_PIN U1 [get_ports {i_ADC_SDO_n[1]}]	
+###################################################DU3_CONV_B
 set_property PACKAGE_PIN W9 [get_ports {o_ADC_CNV_n[2]}]
-set_property PACKAGE_PIN W2 [get_ports {i_ADC_SDO_p[4]}]
-set_property PACKAGE_PIN Y2 [get_ports {i_ADC_SDO_n[4]}]
-set_property PACKAGE_PIN AB7 [get_ports {i_ADC_SDO_p[5]}]
-set_property PACKAGE_PIN AB6 [get_ports {i_ADC_SDO_n[5]}]
-
-set_property PACKAGE_PIN V4 [get_ports {o_ADC_SCK_p[3]}]
-set_property PACKAGE_PIN W4 [get_ports {o_ADC_SCK_n[3]}]
-set_property PACKAGE_PIN Y6 [get_ports {o_ADC_CNV_n[3]}]
-set_property PACKAGE_PIN AB16 [get_ports {i_ADC_SDO_p[6]}]
-set_property PACKAGE_PIN AB17 [get_ports {i_ADC_SDO_n[6]}]
-set_property PACKAGE_PIN W15 [get_ports {i_ADC_SDO_p[7]}]
-set_property PACKAGE_PIN W16 [get_ports {i_ADC_SDO_n[7]}]
+###################################################DU3_SCK+	
+set_property PACKAGE_PIN U6 [get_ports {o_ADC_SCK_p[2]}]
+###################################################DU3_SCK-	
+set_property PACKAGE_PIN V5 [get_ports {o_ADC_SCK_n[2]}]	
+###################################################DU3_SI_FRONT_SDO+
+set_property PACKAGE_PIN R6 [get_ports {i_ADC_SDO_p[2]}]	
+###################################################DU3_SI_FRONT_SDO-
+set_property PACKAGE_PIN T6 [get_ports {i_ADC_SDO_n[2]}]	
+###################################################DU4_CONV_B
+set_property PACKAGE_PIN U2 [get_ports {o_ADC_CNV_n[3]}]	
+###################################################DU4_SCK+
+set_property PACKAGE_PIN R3 [get_ports {o_ADC_SCK_p[3]}]	
+###################################################DU4_SCK-
+set_property PACKAGE_PIN R2 [get_ports {o_ADC_SCK_n[3]}]	
+###################################################DU4_SI_FRONT_SDO+
+set_property PACKAGE_PIN Y3 [get_ports {i_ADC_SDO_p[3]}]	
+###################################################DU4_SI_FRONT_SDO-
+set_property PACKAGE_PIN AA3 [get_ports {i_ADC_SDO_n[3]}]	
+###################################################DU1_SI_BACK_SDO+
+set_property PACKAGE_PIN W6 [get_ports {i_ADC_SDO_p[4]}]
+###################################################DU1_SI_BACK_SDO-
+set_property PACKAGE_PIN W5 [get_ports {i_ADC_SDO_n[4]}]
+###################################################DU2_SI_BACK_SDO+
+set_property PACKAGE_PIN V4 [get_ports {i_ADC_SDO_p[5]}]
+###################################################DU2_SI_BACK_SDO-
+set_property PACKAGE_PIN W4 [get_ports {i_ADC_SDO_n[5]}]
+###################################################DU3_SI_BACK_SDO+
+set_property PACKAGE_PIN T5 [get_ports {i_ADC_SDO_p[6]}]
+###################################################DU3_SI_BACK_SDO-
+set_property PACKAGE_PIN U5 [get_ports {i_ADC_SDO_n[6]}]
+###################################################DU4_SI_BACK_SDO+
+set_property PACKAGE_PIN AB7 [get_ports {i_ADC_SDO_p[7]}]
+###################################################DU4_SI_BACK_SDO-
+set_property PACKAGE_PIN AB6 [get_ports {i_ADC_SDO_n[7]}]
 
 #set_property PACKAGE_PIN Y4 [get_ports {o_ADC_SCK_p[1]}]
 #set_property PACKAGE_PIN AA4 [get_ports {o_ADC_SCK_n[1]}]
@@ -59,6 +83,8 @@ set_property PACKAGE_PIN W16 [get_ports {i_ADC_SDO_n[7]}]
 
 #set_property PACKAGE_PIN Y6 [get_ports {o_ADC_SCK_p[7]}]
 #set_property PACKAGE_PIN AA6 [get_ports {o_ADC_SCK_n[7]}]
+
+create_clock -period 10.000 -name o_ADC_SCK_p [get_ports {o_ADC_SCK_p[*]}]
 
 set_property IOSTANDARD LVDS_25 [get_ports {o_ADC_SCK_p[*]}]
 set_property IOSTANDARD LVDS_25 [get_ports {o_ADC_SCK_n[*]}]
