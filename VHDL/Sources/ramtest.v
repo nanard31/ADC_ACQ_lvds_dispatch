@@ -53,9 +53,9 @@ module ramtest (
     output wire [3 :0]  o_ADC_SCK_p,
 	
     input  wire [7 :0]  i_ADC_SDO_p,
-    input  wire [7 :0]  i_ADC_SDO_n
+    input  wire [7 :0]  i_ADC_SDO_n,
 	
-	//input  wire        	sys_rst              // for simulation
+	input  wire        	sys_rst              // for simulation
 	
 	);
 
@@ -70,7 +70,7 @@ localparam CAPABILITY = 16'h0001;
 
 
 wire          init_calib_complete;
-reg           sys_rst;			// comment for simulation
+//reg           sys_rst;			// comment for simulation
 
 wire [29 :0]  app_addr;
 wire [2  :0]  app_cmd;
@@ -149,7 +149,7 @@ assign led = xem7310_led({start_led,3'hf,ep00wire[0],ep00wire[1],app_wdf_rdy,ini
 	//MIG Infrastructure Reset
 reg [31:0] rst_cnt;
 initial rst_cnt = 32'b0;
-always @(posedge okClk) begin						// comment process for simulation
+/*always @(posedge okClk) begin						// comment process for simulation
 	if(rst_cnt < 32'h0800_0000) begin
 		rst_cnt <= rst_cnt + 1;
 		sys_rst <= 1'b1;
@@ -157,7 +157,7 @@ always @(posedge okClk) begin						// comment process for simulation
 	else begin
 		sys_rst <= 1'b0;
 	end
-end
+end*/
 
 // MIG User Interface instantiation
 ddr3_256_32 u_ddr3_256_32 (
@@ -213,8 +213,8 @@ ddr3_256_32 u_ddr3_256_32 (
 ddr3_test ddr3_tb (
 	.clk                (clk),
 	.reset              (ep00wire[2] | rst),
-	.reads_en           (ep00wire[0]),	// fix for simulation
-	.writes_en          (ep00wire[1]),	// fix for simulation
+	.reads_en           (1'b1),//(ep00wire[0]),	// fix for simulation
+	.writes_en          (1'b1),//(ep00wire[1]),	// fix for simulation
 	.calib_done         (init_calib_complete),
 
 	.ib_re              (pipe_in_read),
