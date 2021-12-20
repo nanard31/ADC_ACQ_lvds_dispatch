@@ -54,14 +54,19 @@ gen_ADCs:   for i in 0 to 7 generate
 
     ADC: entity work.ADCLTC2311_Driver
         port map(
+			-- Reset and Clocks
             i_Rst_n     => i_Rst_n,
             i_Clk_100MHz=> i_Clk,
-			i_Enable	=> '1',
-            o_Ready     => o_Ready(i),
-            o_Data_Reg  => o_Dout(16*(i+1)-1 downto 16*i),
-            o_ADC_SCK   => ADC_SCK(i),
-            o_ADC_CNV_n => ADC_CNV_n(i),
-            i_ADC_SDO   => i_ADC_SDO(i)
+			-- Control
+			i_Enable		=> '1',
+			i_Debug_Pin_Sel	=>	"0101",
+            o_Data_Ready    => o_Ready(i),
+            o_Data_Read  	=> o_Dout(16*(i+1)-1 downto 16*i),
+			-- ADC SPI
+            o_ADC_SCK   	=> ADC_SCK(i),
+            o_ADC_CNV_n 	=> ADC_CNV_n(i),
+            i_ADC_SDO   	=> i_ADC_SDO(i),
+			o_ADC_SCK_Gate	=> open
         );
 end generate;        
 
