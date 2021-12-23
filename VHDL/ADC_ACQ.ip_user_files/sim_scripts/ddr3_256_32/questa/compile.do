@@ -1,18 +1,9 @@
 vlib questa_lib/work
 vlib questa_lib/msim
 
-vlib questa_lib/msim/xpm
 vlib questa_lib/msim/xil_defaultlib
 
-vmap xpm questa_lib/msim/xpm
 vmap xil_defaultlib questa_lib/msim/xil_defaultlib
-
-vlog -work xpm  -sv \
-"C:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
-"C:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
-
-vcom -work xpm  -93 \
-"C:/Xilinx/Vivado/2020.2/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vlog -work xil_defaultlib  \
 "../../../../ADC_ACQ.gen/sources_1/ip/ddr3_256_32/ddr3_256_32/user_design/rtl/clocking/mig_7series_v4_2_clk_ibuf.v" \
@@ -82,6 +73,7 @@ vlog -work xil_defaultlib  \
 "../../../../ADC_ACQ.gen/sources_1/ip/ddr3_256_32/ddr3_256_32/user_design/rtl/ui/mig_7series_v4_2_ui_wr_data.v" \
 "../../../../ADC_ACQ.gen/sources_1/ip/ddr3_256_32/ddr3_256_32/user_design/rtl/ddr3_256_32_mig_sim.v" \
 "../../../../ADC_ACQ.gen/sources_1/ip/ddr3_256_32/ddr3_256_32/user_design/rtl/ddr3_256_32.v" \
+
 
 vlog -work xil_defaultlib \
 "glbl.v"

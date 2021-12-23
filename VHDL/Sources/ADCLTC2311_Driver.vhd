@@ -73,28 +73,36 @@ begin
                     Master_Count <= Master_Count + "1"; -- Increment master count each cycle
 
                     case Master_Count is
-                        when "00000" =>            -- Start new acquisition, wait for at least 25ns with CNV_n in high state, here 3 cycles
-                            o_ADC_CNV_n <= '1';
-							o_Data_Ready <= '0';
-                        when "00011" =>            -- End of acquisition, wait for at least 9.5ns, SCK Quiet Time from CNV_n falling edge
-                            o_Data_Ready <= '0';  -- No new value
+                        --when 5X"00" =>            -- Start new acquisition, wait for at least 25ns with CNV_n in high state, here 3 cycles
+                        when "00000" =>
+							o_ADC_CNV_n <= '1';
+                        --when 5X"03" =>            -- End of acquisition, wait for at least 9.5ns, SCK Quiet Time from CNV_n falling edge
+                        when "00011" =>
+							o_Data_Ready <= '0';  -- No new value
                             o_ADC_CNV_n  <= '0';
-                        when "00100" =>            -- Start new conversion
+                        --when 5X"04" =>            -- Start new conversion
+						when "00100" => 	
                             ADC_SCK_Gate <= '1';  -- Enable SCK
-                        when "01110" =>            -- End of conversion and readout, wait for at least 9.1ns, SCK Delay Time to CNV rising edge
-                            Master_Count <= (others => '0'); -- Reset counter for a new cycle
+                        --when 5X"14" =>            -- End of conversion and readout, wait for at least 9.1ns, SCK Delay Time to CNV rising edge
+                        when "10100" => 
+							Master_Count <= (others => '0'); -- Reset counter for a new cycle
                             ADC_SCK_Gate <= '0';  -- Disable SCK
                             o_Data_Ready <= '1';  -- Strech pulse during at least 4 clock ticks
                             case i_Debug_Pin_Sel(2 downto 0) is
-                                when "001" =>
+                                --when 3X"1" =>
+								when "001" =>
                                     o_Data_Read <= X"5005";
-                                when "010" =>
+                                --when 3X"2" =>
+								when "010" =>
                                     o_Data_Read <= X"AFFA";
-                                when "011" =>
+                                --when 3X"3" =>
+								when "011" =>
                                     o_Data_Read <= SPI_Received_Data(14 downto 7) & X"55"; -- MSB & 0x55
-                                when "100" =>
+                                --when 3X"4" =>
+								when "100" =>
                                     o_Data_Read <= X"AA" & SPI_Received_Data(6 downto 0) & i_ADC_SDO; -- 0xAA & LSB
-                                when "101" =>
+                                --when 3X"5" =>
+								when "101" =>
                                     o_Data_Read <= X"D" & "00" & std_logic_vector(Debug_cnt); -- 4 + 2 + 10 bits
                                     Debug_cnt   <= Debug_cnt + "1";
                                 when others =>
@@ -103,7 +111,8 @@ begin
                         when others =>            -- Do nothing
                     end case;
 
-                    if (Master_Count >= "00100" and Master_Count <= "01110") then
+                    --if (Master_Count >= 5X"04" and Master_Count <= 5X"14") then
+					if (Master_Count >= "00100" and Master_Count <= "10100") then
                         SPI_Received_Data <= SPI_Received_Data(14 downto 0) & i_ADC_SDO; -- Store the newly measured bit
                     end if;
 

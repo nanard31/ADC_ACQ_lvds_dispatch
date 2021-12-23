@@ -42,6 +42,7 @@ signal init						: unsigned(15 downto 0) := (others => '0');
 
 -- signal iSCK  : std_logic_vector(0 to 7); 
 signal ADC_SDO  				: std_logic_vector(7 downto 0); 
+signal o_Front_ADC_SDO			: std_logic;
 
 signal debug_CNV : std_logic;
 signal debug_SCK : std_logic;	
@@ -63,45 +64,29 @@ gen_IBUFDS_SCK : for I in 3 downto 0 generate
 	end generate gen_IBUFDS_SCK;
 
 	
-	send_serial_data: process(ADC_SCK(0))
+lebel_emulator : entity work.ADCLTC2311_Emulators
+	port map (
+        --------------------------------------------------------------------------------------------
+        -- Reset
+        --------------------------------------------------------------------------------------------
+        i_Rst_n         =>	i_Rst_n,
+        --------------------------------------------------------------------------------------------
+        -- ADC Inputs
+        --------------------------------------------------------------------------------------------
+        i_FIFO_empty    =>	'0',	
+        o_FIFO_rd_en    =>	open,
+        i_FIFO_dout     =>	x"AA55AA55",
+        --------------------------------------------------------------------------------------------
+        -- ADC SPI
+        --------------------------------------------------------------------------------------------
+        i_ADC_SCK       =>	ADC_SCK(0),
+        i_ADC_CNV_n     =>	i_ADC_CNV_n(0),
+        o_Front_ADC_SDO =>	o_Front_ADC_SDO,
+        o_Back_ADC_SDO  =>	open
+    );
 	
-	begin
-	
-		if rising_edge(ADC_SCK(0)) then
-			if i_ADC_CNV_n(0) = '0' and cnt <= 14 then
-				TB_ADC_Data_to_send <= TB_ADC_Data_to_send(14 downto 0) & '0';
-				cnt <= cnt + 1;
-			else
-				if cnt = 15 then
-				TB_ADC_Data_to_send <= init;-- - x"0100";
-				init <= init+1; 
-				cnt <= 0;
-				end if;
-			end if;
-		end if;
-		
-	-- end process;
-	
-		-- loop
-			
-			-- wait until falling_edge(ADC_SCK(0));
-			
-				-- if i_ADC_CNV_n(0) = '0' then
-					-- for I in 0 to 14 loop
-					-- wait until falling_edge(ADC_SCK(0));					
-						-- TB_ADC_Data_to_send <= TB_ADC_Data_to_send(14 downto 0) & '0';
-					-- end loop;
-				-- else
-				-- TB_ADC_Data_to_send <= x"AA55";-- - x"0100";	
-				-- end if;
-				
-		-- end loop;
-		
-	
-	end process;	
-
 gen_adssdo : for i in 7 downto 0 generate	
-ADC_SDO(i) <= TB_ADC_Data_to_send(15);	
+ADC_SDO(i) <= o_Front_ADC_SDO;	
 end generate;
  
 gen_OBUFDS_ADC_SDO : for I in 7 downto 0 generate 

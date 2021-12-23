@@ -919,7 +919,7 @@ function integer clogb2 (input integer size);
 
 Dispatch_board u_Dispatch_board
 		(
-        .i_Rst_n		(~Rst),     //: in  std_logic;             -- General Reset, negative polarity
+        .i_Rst_n		(~sys_rst),     //: in  std_logic;             -- General Reset, negative polarity
 
         //i_Clk        : in  std_logic;             -- SPI Serial Clock reference
 
