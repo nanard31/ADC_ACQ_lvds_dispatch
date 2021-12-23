@@ -50,6 +50,10 @@ signal debug_SDO : std_logic;
 
 signal cnt		:	integer :=0;
 
+signal o_FIFO_rd_en    :	std_logic;          -- FIFO Read Enable flag to request a new data
+signal i_FIFO_dout     :	std_logic_vector(31 downto 0); -- Data register read from FIFO to convert
+signal i_FIFO_dout_unsigned     :	unsigned(31 downto 0); -- Data register read from FIFO to convert
+
 begin
 
 gen_IBUFDS_SCK : for I in 3 downto 0 generate
@@ -74,8 +78,8 @@ lebel_emulator : entity work.ADCLTC2311_Emulators
         -- ADC Inputs
         --------------------------------------------------------------------------------------------
         i_FIFO_empty    =>	'0',	
-        o_FIFO_rd_en    =>	open,
-        i_FIFO_dout     =>	x"AA55AA55",
+        o_FIFO_rd_en    =>	o_FIFO_rd_en,
+        i_FIFO_dout     =>	std_logic_vector(i_FIFO_dout_unsigned),
         --------------------------------------------------------------------------------------------
         -- ADC SPI
         --------------------------------------------------------------------------------------------
@@ -85,6 +89,19 @@ lebel_emulator : entity work.ADCLTC2311_Emulators
         o_Back_ADC_SDO  =>	open
     );
 	
+    data_emul : process
+    begin
+	
+		i_FIFO_dout_unsigned <= (others => '0');
+        wait until i_Rst_n = '1';
+		
+        while True loop
+            wait until rising_edge(o_FIFO_rd_en);
+			i_FIFO_dout_unsigned <= i_FIFO_dout_unsigned + "1";
+        end loop; 
+		
+    end process data_emul;
+		
 gen_adssdo : for i in 7 downto 0 generate	
 ADC_SDO(i) <= o_Front_ADC_SDO;	
 end generate;

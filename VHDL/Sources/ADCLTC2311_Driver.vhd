@@ -76,9 +76,10 @@ begin
                         --when 5X"00" =>            -- Start new acquisition, wait for at least 25ns with CNV_n in high state, here 3 cycles
                         when "00000" =>
 							o_ADC_CNV_n <= '1';
+							o_Data_Ready <= '0';
                         --when 5X"03" =>            -- End of acquisition, wait for at least 9.5ns, SCK Quiet Time from CNV_n falling edge
                         when "00011" =>
-							o_Data_Ready <= '0';  -- No new value
+							--o_Data_Ready <= '0';  -- No new value
                             o_ADC_CNV_n  <= '0';
                         --when 5X"04" =>            -- Start new conversion
 						when "00100" => 	
