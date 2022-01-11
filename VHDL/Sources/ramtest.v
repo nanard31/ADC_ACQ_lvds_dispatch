@@ -48,12 +48,12 @@ module ramtest (
 	inout  wire [3 :0]  ddr3_dqs_n,
 	output wire         ddr3_reset_n,
 	
-	output wire [3 :0]  o_ADC_CNV_n,
-    output wire [3 :0]  o_ADC_SCK_n,
-    output wire [3 :0]  o_ADC_SCK_p,
+	output wire [4 :0]  o_ADC_CNV_n,
+    output wire [4 :0]  o_ADC_SCK_n,
+    output wire [4 :0]  o_ADC_SCK_p,
 	
-    input  wire [7 :0]  i_ADC_SDO_p,
-    input  wire [7 :0]  i_ADC_SDO_n
+    input  wire [9 :0]  i_ADC_SDO_p,
+    input  wire [9 :0]  i_ADC_SDO_n
 	
 	//input  wire        	sys_rst              // for simulation
 	
@@ -123,16 +123,19 @@ wire         po0_ep_read;
 wire [31:0]  pi0_ep_dataout;
 wire [31:0]  po0_ep_datain;
 
-wire [127:0] o_dout;
+wire [159:0] o_dout;
 wire [31:0]  sample_count;
 
 //wire [0:7]	iADC_CNV_n;
-wire [0:3]	ADC_SCK;
-wire [0:7]	ADC_SDO;
+wire [0:4]	ADC_SCK;
+wire [0:9]	ADC_SDO;
 
 wire [0:7]	o_ADC_Sck_p_wire;
 wire [0:7]	o_ADC_Sck_n_wire;
 
+wire [9:0] o_rdy;          //10 bits
+	
+wire [169: 0] probe0;
 
 function [7:0] xem7310_led;
 input [7:0] a;
@@ -350,7 +353,7 @@ fifo_w256_128_r32_1024 okPipeOut_fifo (
 
 genvar i;
 generate
-    for (i=0; i<=3; i=i+1) begin: OBUFDS
+    for (i=0; i<=4; i=i+1) begin: OBUFDS
     OBUFDS whatever_OBUFDS (
         .I(ADC_SCK[i]),
 		.O(o_ADC_SCK_p[i]),
@@ -365,7 +368,7 @@ assign o_ADC_Sck_n = o_ADC_Sck_n_wire;  */
  
 genvar v;
 generate
-    for (v=0; v<=7; v=v+1) begin: IBUFDS
+    for (v=0; v<=9; v=v+1) begin: IBUFDS
     IBUFDS whatever_IBUFDS (
         .I(i_ADC_SDO_p[v]),
         .IB(i_ADC_SDO_n[v]),
@@ -375,6 +378,12 @@ generate
 end 
 endgenerate	
 
+ila_0 u_ila_0(
+	  .clk	(clk),
+	  .probe0 (probe0)
+	  );
+
+assign probe0 = {o_dout,o_rdy};
 
 
 /* assign o_ADC_CNV_n[0] = iADC_CNV_n[0];

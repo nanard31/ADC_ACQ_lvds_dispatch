@@ -11,12 +11,12 @@ entity Test_Template is
         i_debug_en      : in  std_logic;
         o_start_led     : out std_logic;
         i_Samples_count : in  std_logic_vector(31 downto 0);
-        o_Data          : out std_logic_vector(127 downto 0);
-        o_Rdy           : out std_logic;
+        o_Data          : out std_logic_vector(159 downto 0);
+        o_Rdy           : out std_logic_vector(0 to 9);
   
-		o_ADC_SCK     	: out std_logic_vector(0 to 3);             -- SPI Serial Clock
-        o_ADC_CNV_n   	: out std_logic_vector(0 to 3);             -- SPI Convert Input, negative polarity
-        i_ADC_SDO     	: in  std_logic_vector(0 to 7);
+		o_ADC_SCK     	: out std_logic_vector(0 to 4);             -- SPI Serial Clock
+        o_ADC_CNV_n   	: out std_logic_vector(0 to 4);             -- SPI Convert Input, negative polarity
+        i_ADC_SDO     	: in  std_logic_vector(0 to 9);
 		
 		init_calib_complete: in  std_logic
   
@@ -36,8 +36,8 @@ architecture RTL of Test_Template is
     signal debug : std_logic;
     signal rst_n : std_logic;
 
-    signal o_Ready : std_logic_vector(0 to 7);
-    signal o_Dout : std_logic_vector(16*8-1 downto 0);
+    signal o_Ready : std_logic_vector(0 to 9);
+    signal o_Dout : std_logic_vector(16*10-1 downto 0);
 
 
 begin
@@ -88,7 +88,7 @@ begin
            count      <= 0;
            data       <= 0;
            o_Data     <= (others => '0');
-           o_Rdy      <= '0';
+           o_Rdy      <= (others => '0');
            o_finished <= '0';
            debug      <= '0';
            state      := IDLE;
@@ -100,7 +100,7 @@ begin
                    count      <= 0;
                    data       <= 0;
                    o_Data     <= (others => '0');
-                   o_Rdy      <= '0';
+                   o_Rdy      <= (others => '0');
                    o_finished <= '0';
                    if i_start = '1' or init_calib_complete = '1' then
                        debug <= not debug;
@@ -117,7 +117,7 @@ begin
 --                        state := WAIT_NEXT;
 --                    else
                        o_Data <= o_Dout;
-                       o_Rdy <= o_Ready(0);
+                       o_Rdy <= o_Ready;
 					   data   <= data + 1;
 --                    end if;
 
@@ -125,7 +125,7 @@ begin
 
                when WAIT_NEXT =>
 
-                   o_Rdy <= '0';
+                   o_Rdy <= (others => '0');
                    count <= count + 1;
 
                    if count >= 20 then
