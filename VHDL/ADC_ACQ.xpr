@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="54" Path="C:/TORTOISE_DORN/ADC_ACQ_lvds_dispatch/VHDL/ADC_ACQ.xpr">
+<Project Version="7" Minor="54" Path="C:/TORTOISE_DORN/20220117_ADC_ACQ_lvds_dispatch/VHDL/ADC_ACQ.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="66b65c2238d9438483a0f53d753e2adf"/>

@@ -54,7 +54,7 @@ begin
             Master_Count <= (others => '0');
             Debug_cnt    <= (others => '0');
             state        <= S_Idle;               -- Start in idle state
-        elsif falling_edge(i_Clk_100MHz) then
+        elsif rising_edge(i_Clk_100MHz) then
             -- FSM
             case state is                         -- FSM_freq = 100MHz, here sampling at here sampling at 4.5 MHz
                 when S_Idle =>
